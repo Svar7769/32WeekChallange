@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors(
   {
-    origin: ["https://financial-app.vercel.app"],
+    origin: ["https://financial-app-front.vercel.app/"],
     methods: ["POST", "GET"],
     credentials: true
   }
