@@ -5,7 +5,8 @@
  "scripts": {
   "start": "node server.js",
   "dev": "nodemon server.js",
-  "build": "npm install"
+  "build": "npm install && npm run compile-assets",
+  "compile-assets": "your-compile-command-here"
 },
   
   "keywords": [],
