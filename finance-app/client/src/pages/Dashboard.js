@@ -1,5 +1,5 @@
 // src/pages/Dashboard.js
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';

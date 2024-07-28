@@ -102,6 +102,7 @@ export const AppProvider = ({ children }) => {
     try {
       const response = await axiosInstance.post('/users/login', credentials);
       localStorage.setItem('token', response.data.token);
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
       setUser(response.data.user);
       fetchTransactions();
       fetchBudgets();
@@ -119,6 +120,7 @@ export const AppProvider = ({ children }) => {
     try {
       const response = await axiosInstance.post('/users/register', userData);
       localStorage.setItem('token', response.data.token);
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
       setUser(response.data.user);
       setError(null);
     } catch (error) {
@@ -128,20 +130,29 @@ export const AppProvider = ({ children }) => {
   };
 
   const logout = () => {
-      localStorage.removeItem('token');
-      setUser(null);
-      setTransactions([]);
-      setBudgets([]);
-      setGoals([]);
-      setCategories([]);
-      setReminders([]);
-      setError(null);
-    };
+    localStorage.removeItem('token');
+    delete axiosInstance.defaults.headers.common['Authorization'];
+    setUser(null);
+    setTransactions([]);
+    setBudgets([]);
+    setGoals([]);
+    setCategories([]);
+    setReminders([]);
+    setError(null);
+  };
 
-    const addTransaction = async (transactionData) => {
+  const addTransaction = async (transactionData) => {
+    // Optimistically update the UI
+    const tempId = Date.now().toString();
+    const tempTransaction = { ...transactionData, _id: tempId };
+    setTransactions(prevTransactions => [...prevTransactions, tempTransaction]);
+
     try {
       const response = await axiosInstance.post('/transactions', transactionData);
-      setTransactions([...transactions, response.data]);
+      // Replace the temporary transaction with the one from the server
+      setTransactions(prevTransactions => 
+        prevTransactions.map(t => t._id === tempId ? response.data : t)
+      );
 
       // Update budget spending
       if (transactionData.type === 'expense' && transactionData.budget) {
@@ -164,8 +175,11 @@ export const AppProvider = ({ children }) => {
         ));
       }
     } catch (error) {
-      console.error('Failed to add transaction:', error.response?.data?.message || error.message);
-      setError('Failed to add transaction: ' + (error.response?.data?.message || error.message));
+      // If there's an error, revert the optimistic update
+      setTransactions(prevTransactions => 
+        prevTransactions.filter(t => t._id !== tempId)
+      );
+      setError('Failed to add transaction');
       throw error;
     }
   };
@@ -184,40 +198,35 @@ export const AppProvider = ({ children }) => {
 
   const deleteTransaction = async (id) => {
     try {
-      // Fetch the transaction details before deleting
-      const transactionToDelete = transactions.find(t => t._id === id);
-      if (!transactionToDelete) {
+      const transaction = transactions.find(t => t._id === id);
+      if (!transaction) {
         throw new Error('Transaction not found');
       }
 
-      // Delete the transaction
       await axiosInstance.delete(`/transactions/${id}`);
       setTransactions(transactions.filter(transaction => transaction._id !== id));
 
-      // Update budget if it's an expense transaction
-      if (transactionToDelete.type === 'expense' && transactionToDelete.budget) {
-        const updatedBudget = await axiosInstance.patch(`/budgets/${transactionToDelete.budget}/spend`, {
-          amount: -transactionToDelete.amount, // Subtract the amount from spent
-          type: 'delete'
+      // Update budget spending
+      if (transaction.type === 'expense' && transaction.budget) {
+        const updatedBudget = await axiosInstance.patch(`/budgets/${transaction.budget}/spend`, {
+          amount: -transaction.amount,
+          type: 'expense'
         });
         setBudgets(budgets.map(budget => 
           budget._id === updatedBudget.data._id ? updatedBudget.data : budget
         ));
       }
 
-      // Update goal if it's an income transaction
-      if (transactionToDelete.type === 'income' && transactionToDelete.goal) {
-        const updatedGoal = await axiosInstance.patch(`/goals/${transactionToDelete.goal}/progress`, {
-          amount: -transactionToDelete.amount, // Subtract the amount from progress
-          type: 'delete'
+      // Update goal progress if it was an income transaction
+      if (transaction.type === 'income' && transaction.goal) {
+        const updatedGoal = await axiosInstance.patch(`/goals/${transaction.goal}/progress`, {
+          amount: -transaction.amount
         });
         setGoals(goals.map(goal => 
           goal._id === updatedGoal.data._id ? updatedGoal.data : goal
         ));
       }
-
     } catch (error) {
-      console.error('Failed to delete transaction:', error);
       setError('Failed to delete transaction');
       throw error;
     }
@@ -326,11 +335,13 @@ export const AppProvider = ({ children }) => {
       addGoal,
       updateGoal,
       deleteGoal,
+      fetchTransactions,
+      fetchBudgets,
       fetchGoals,
       fetchCategories,
+      fetchReminders,
       addCategory,
-      addReminder,
-      fetchBudgets
+      addReminder
     }}>
       {children}
     </AppContext.Provider>

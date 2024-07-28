@@ -6,25 +6,22 @@ const auth = require('../middleware/auth');
 // Get all goals for a user
 router.get('/', auth, async (req, res) => {
   try {
-    const goals = await Goal.find({ user: req.user.id }).populate('category');
+    const goals = await Goal.find({ user: req.user.id }).sort({ date: -1 });
     res.json(goals);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Error fetching goals:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
 // Create a new goal
 router.post('/', auth, async (req, res) => {
-  const goal = new Goal({
-    ...req.body,
-    user: req.user.id,
-    currentAmount: 0
-  });
-
   try {
+    const goal = new Goal({ ...req.body, user: req.user.id });
     const newGoal = await goal.save();
     res.status(201).json(newGoal);
   } catch (err) {
+    console.error('Error creating goal:', err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -33,9 +30,7 @@ router.post('/', auth, async (req, res) => {
 router.patch('/:id', auth, async (req, res) => {
   try {
     const goal = await Goal.findOne({ _id: req.params.id, user: req.user.id });
-    if (!goal) {
-      return res.status(404).json({ message: 'Goal not found' });
-    }
+    if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
     Object.keys(req.body).forEach(key => {
       goal[key] = req.body[key];
@@ -44,6 +39,7 @@ router.patch('/:id', auth, async (req, res) => {
     const updatedGoal = await goal.save();
     res.json(updatedGoal);
   } catch (err) {
+    console.error('Error updating goal:', err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -51,41 +47,15 @@ router.patch('/:id', auth, async (req, res) => {
 // Delete a goal
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const goal = await Goal.findOneAndDelete({ _id: req.params.id, user: req.user.id });
-    if (!goal) {
-      return res.status(404).json({ message: 'Goal not found' });
-    }
-    res.json({ message: 'Goal deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-
-router.patch('/:id/progress', auth, async (req, res) => {
-  try {
-    const { amount, type } = req.body;
     const goal = await Goal.findOne({ _id: req.params.id, user: req.user.id });
+    if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
-    if (!goal) {
-      return res.status(404).json({ message: 'Goal not found' });
-    }
-
-    if (type === 'income') {
-      goal.currentAmount += parseFloat(amount);
-    } else if (type === 'delete') {
-      goal.currentAmount -= parseFloat(amount); // Subtract the amount when deleting a transaction
-    }
-
-    // Ensure currentAmount doesn't go below 0 or exceed targetAmount
-    goal.currentAmount = Math.max(0, Math.min(goal.currentAmount, goal.targetAmount));
-
-    await goal.save();
-    res.json(goal);
+    await goal.remove();
+    res.json({ message: 'Goal removed' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error('Error deleting goal:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 module.exports = router;
