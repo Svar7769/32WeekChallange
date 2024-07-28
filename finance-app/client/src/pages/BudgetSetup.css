@@ -1,0 +1,113 @@
+/* BudgetSetup.css */
+.budget-setup {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.budget-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.submit-btn {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.current-budgets {
+    margin-top: 30px;
+}
+
+.budget-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.budget-category {
+    font-weight: bold;
+    color: #333;
+}
+
+.budget-amount {
+    color: #4CAF50;
+}
+
+.budget-period {
+    color: #888;
+    font-style: italic;
+}
+
+.no-budgets {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+@media (max-width: 480px) {
+    .budget-setup {
+        padding: 15px;
+    }
+
+    .budget-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .budget-amount,
+    .budget-period {
+        margin-top: 5px;
+    }
+}

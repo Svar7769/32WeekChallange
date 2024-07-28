@@ -1,0 +1,61 @@
+/* src/pages/Dashboard.css */
+.dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+}
+
+.quick-add-transaction,
+.recent-transactions,
+.financial-overview {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quick-add-transaction form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.recent-transactions ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.financial-overview {
+    display: flex;
+    justify-content: space-between;
+}
+
+.overview-section {
+    width: 48%;
+}
+
+.budget-item,
+.goal-item {
+    margin-bottom: 15px;
+}
+
+.quick-links {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Add more specific styles as needed */

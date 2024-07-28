@@ -1,0 +1,77 @@
+/* src/pages/ProfileSettings.css */
+.profile-settings {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-form,
+.password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.save-button,
+.change-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover,
+.change-button:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 480px) {
+    .profile-settings {
+        padding: 15px;
+    }
+
+    .form-group {
+        gap: 10px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+
+    .save-button,
+    .change-button {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,155 @@
+/* src/pages/FinancialCalendar.css */
+.financial-calendar {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.custom-calendar {
+    width: 100%;
+    max-width: 100%;
+    background: white;
+    border: 2px solid #007bff;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.custom-calendar .react-calendar__tile {
+    max-width: 100%;
+    padding: 10px 6.6667px;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+    border: 1px solid #b3d9ff;
+    color: black;
+    /* Set the default text color to black */
+    font-weight: bold;
+    /* Make the date numbers bold for better visibility */
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+    background-color: #e6f2ff;
+    border-bottom: 1px solid #007bff;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+    background-color: #e6f2ff;
+    border: 1px solid #007bff;
+}
+
+.custom-calendar .react-calendar__tile--now {
+    background: #ffffa9;
+    border: 1px solid #ffd700;
+}
+
+.custom-calendar .react-calendar__tile--now:enabled:hover,
+.custom-calendar .react-calendar__tile--now:enabled:focus {
+    background: #ffff76;
+}
+
+.custom-calendar .react-calendar__tile--hasActive {
+    background: #a9d4ff;
+}
+
+.custom-calendar .react-calendar__tile--hasActive:enabled:hover,
+.custom-calendar .react-calendar__tile--hasActive:enabled:focus {
+    background: #76baff;
+}
+
+.custom-calendar .react-calendar__tile--active {
+    background: #006edc;
+    color: white;
+    /* Keep the text color white for selected dates */
+}
+
+.custom-calendar .react-calendar__tile--active:enabled:hover,
+.custom-calendar .react-calendar__tile--active:enabled:focus {
+    background: #1087ff;
+}
+
+.custom-calendar .has-events {
+    background-color: #e8f4f8;
+}
+
+.tile-content {
+    font-size: 0.7em;
+    overflow: hidden;
+    margin-top: 2px;
+    /* Add some space between the date number and the events */
+}
+
+.event {
+    margin-bottom: 2px;
+    padding: 2px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: normal;
+    /* Reset font-weight for events */
+}
+
+.transaction {
+    background-color: #e8f5e9;
+}
+
+.transaction.expense {
+    background-color: #ffebee;
+}
+
+.transaction.income {
+    background-color: #e8f5e9;
+}
+
+.reminder {
+    background-color: #fff3e0;
+}
+
+@media (max-width: 768px) {
+    .financial-calendar {
+        padding: 10px;
+    }
+
+    .custom-calendar .react-calendar__tile {
+        padding: 5px 3px;
+    }
+
+    .tile-content {
+        font-size: 0.6em;
+    }
+}
+
+@media (max-width: 480px) {
+    .financial-calendar {
+        padding: 5px;
+    }
+
+    .custom-calendar .react-calendar__tile {
+        padding: 3px 2px;
+    }
+
+    .tile-content {
+        font-size: 0.5em;
+    }
+
+    .event {
+        font-size: 0.6em;
+    }
+}

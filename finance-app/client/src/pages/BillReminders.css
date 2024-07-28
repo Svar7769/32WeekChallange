@@ -1,0 +1,119 @@
+/* src/components/BillReminders.css */
+.bill-reminders {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reminder-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.current-reminders {
+    background-color: white;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reminder-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.reminder-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e8f5e9;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.reminder-item:hover {
+    background-color: #c8e6c9;
+}
+
+.reminder-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.reminder-amount {
+    color: #4CAF50;
+}
+
+.reminder-date {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.no-reminders {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+@media (max-width: 480px) {
+    .bill-reminders {
+        padding: 15px;
+    }
+
+    .reminder-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reminder-amount,
+    .reminder-date {
+        margin-top: 5px;
+    }
+}

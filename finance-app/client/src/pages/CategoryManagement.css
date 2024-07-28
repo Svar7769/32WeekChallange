@@ -1,0 +1,95 @@
+/* src/components/CategoryManagement.css */
+.category-management {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.category-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.category-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.current-categories {
+    background-color: white;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category-item {
+    background-color: #e8f5e9;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.category-item:hover {
+    background-color: #c8e6c9;
+}
+
+.no-categories {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+@media (max-width: 480px) {
+    .category-management {
+        padding: 15px;
+    }
+
+    .category-form {
+        flex-direction: column;
+    }
+
+    .category-input,
+    .add-button {
+        width: 100%;
+    }
+
+    .category-item {
+        font-size: 14px;
+    }
+}
