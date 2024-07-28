@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const AppContext = createContext();
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'finance-api-silk.vercel.app';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
