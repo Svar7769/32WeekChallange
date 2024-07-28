@@ -26,21 +26,23 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Update a goal
-router.patch('/:id', auth, async (req, res) => {
+// Update goal progress
+router.patch('/:id/progress', auth, async (req, res) => {
   try {
+    const { amount } = req.body;
     const goal = await Goal.findOne({ _id: req.params.id, user: req.user.id });
-    if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
-    Object.keys(req.body).forEach(key => {
-      goal[key] = req.body[key];
-    });
+    if (!goal) {
+      return res.status(404).json({ message: 'Goal not found' });
+    }
 
-    const updatedGoal = await goal.save();
-    res.json(updatedGoal);
-  } catch (err) {
-    console.error('Error updating goal:', err);
-    res.status(400).json({ message: err.message });
+    goal.currentAmount += parseFloat(amount);
+    await goal.save();
+
+    res.json(goal);
+  } catch (error) {
+    console.error('Error updating goal progress:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

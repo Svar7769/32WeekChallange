@@ -11,7 +11,7 @@ import TransactionList from './components/TransactionList';
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './pages/NotFound';
 // import BudgetSetup from './pages/BudgetSetup';
-import FinancialGoals from './pages/FinancialGoals';
+// import FinancialGoals from './pages/FinancialGoals';
 import Reports from './pages/Reports';
 import CategoryManagement from './pages/CategoryManagement';
 import ProfileSettings from './pages/ProfileSettings';
@@ -41,7 +41,7 @@ const App = () => {
               {/* <Route path="/budget-setup" element={<PrivateRoute><BudgetSetup /></PrivateRoute>} /> */}
               <Route path="/budgets" element={<PrivateRoute><BudgetPage /></PrivateRoute>} />
               <Route path="/budget" element={<PrivateRoute><BudgetList /></PrivateRoute>} />
-              <Route path="/financial-goals" element={<PrivateRoute><FinancialGoals /></PrivateRoute>} />
+              <Route path="/financial-goals" element={<PrivateRoute><GoalPage /></PrivateRoute>} />
               <Route path="/reports" element={<PrivateRoute><Reports /></PrivateRoute>} />
               <Route path="/category-management" element={<PrivateRoute><CategoryManagement /></PrivateRoute>} />
               <Route path="/profile-settings" element={<PrivateRoute><ProfileSettings /></PrivateRoute>} />

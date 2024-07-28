@@ -16,4 +16,18 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+router.post('/', auth, async (req, res) => {
+  try {
+    const newCategory = new Category({
+      name: req.body.name,
+      user: req.user.id
+    });
+    const category = await newCategory.save();
+    res.status(201).json(category);
+  } catch (err) {
+    console.error('Error creating category:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;

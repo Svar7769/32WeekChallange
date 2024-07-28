@@ -99,7 +99,7 @@ const TransactionList = () => {
             <tr key={transaction._id}>
               <td>{new Date(transaction.date).toLocaleDateString()}</td>
               <td>{transaction.description}</td>
-              <td>{transaction.category}</td>
+              <td>{transaction.category.name}</td>
               <td>${transaction.amount.toFixed(2)}</td>
               <td>{transaction.type}</td>
               <td>
