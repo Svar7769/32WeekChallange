@@ -1,0 +1,68 @@
+/* src/components/GoalPage.css */
+.goal-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.goal-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.goal-page button {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.goal-page button:hover {
+    background-color: #0056b3;
+}
+
+.goal-list {
+    margin-top: 20px;
+}
+
+.goal-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.goal-item h3 {
+    margin-top: 0;
+}
+
+.goal-item p {
+    margin: 5px 0;
+}
+
+.goal-item button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.goal-item button:hover {
+    background-color: #218838;
+}
+
+.goal-item button.delete {
+    background-color: #dc3545;
+}
+
+.goal-item button.delete:hover {
+    background-color: #c82333;
+}

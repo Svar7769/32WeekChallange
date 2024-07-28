@@ -1,0 +1,68 @@
+/* src/components/BudgetPage.css */
+.budget-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.budget-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.budget-page button {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.budget-page button:hover {
+    background-color: #0056b3;
+}
+
+.budget-list {
+    margin-top: 20px;
+}
+
+.budget-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.budget-item h3 {
+    margin-top: 0;
+}
+
+.budget-item p {
+    margin: 5px 0;
+}
+
+.budget-item button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.budget-item button:hover {
+    background-color: #218838;
+}
+
+.budget-item button.delete {
+    background-color: #dc3545;
+}
+
+.budget-item button.delete:hover {
+    background-color: #c82333;
+}

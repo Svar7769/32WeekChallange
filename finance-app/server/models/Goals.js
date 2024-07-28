@@ -1,4 +1,3 @@
-// models/Goal.js
 const mongoose = require('mongoose');
 
 const GoalSchema = new mongoose.Schema({
@@ -15,14 +14,23 @@ const GoalSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  savedAmount: {
+  currentAmount: {
     type: Number,
     default: 0
   },
-  createdAt: {
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
+  },
+  startDate: {
     type: Date,
-    default: Date.now
+    required: true
+  },
+  targetDate: {
+    type: Date,
+    required: true
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Goal', GoalSchema);

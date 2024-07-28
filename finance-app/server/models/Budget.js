@@ -1,4 +1,4 @@
-// server/models/Budget.js
+// models/Budget.js
 const mongoose = require('mongoose');
 
 const BudgetSchema = new mongoose.Schema({
@@ -7,7 +7,7 @@ const BudgetSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  category: {
+  name: {
     type: String,
     required: true
   },
@@ -15,14 +15,22 @@ const BudgetSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  period: {
-    type: String,
-    enum: ['monthly', 'yearly'],
-    default: 'monthly'
-  },
   spent: {
     type: Number,
     default: 0
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
+  },
+  startDate: {
+    type: Date,
+    required: true
+  },
+  endDate: {
+    type: Date,
+    required: true
   }
 }, { timestamps: true });
 

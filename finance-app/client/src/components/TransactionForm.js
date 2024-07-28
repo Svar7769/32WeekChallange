@@ -1,76 +1,130 @@
-import React, { useState, useContext, useEffect } from 'react';
+// src/components/TransactionForm.js
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { AppContext } from '../context/AppContext';
-import axiosInstance from '../utils/axiosInstance';
 import './TransactionForm.css';
 
 const TransactionForm = () => {
-  const { addTransaction } = useContext(AppContext);
+  const { addTransaction, categories, budgets, goals, fetchCategories, fetchBudgets, fetchGoals } = useContext(AppContext);
 
   const [transaction, setTransaction] = useState({
     description: '',
     amount: '',
     type: 'expense',
     category: '',
-    date: new Date().toISOString().substr(0, 10)
+    date: new Date().toISOString().substr(0, 10),
+    budget: '',
+    goal: '',
   });
 
   const [error, setError] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setIsLoading(true);
-      try {
-        console.log('Fetching categories...');
-        const response = await axiosInstance.get('/categories');
-        console.log('Categories fetched successfully:', response.data);
-        setCategories(response.data);
-        if (response.data.length > 0) {
-          setTransaction(prev => ({ ...prev, category: response.data[0]._id }));
-        }
-      } catch (err) {
-        console.error('Error fetching categories:', err);
-        setError('Failed to fetch categories');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+    if (categories.length === 0) fetchCategories();
+    if (budgets.length === 0) fetchBudgets();
+    if (goals.length === 0) fetchGoals();
+  }, [categories.length, budgets.length, goals.length, fetchCategories, fetchBudgets, fetchGoals]);
 
   useEffect(() => {
-    console.log('Categories updated:', categories);
-  }, [categories]);
+    if (categories.length > 0 && !transaction.category) {
+      setTransaction(prev => ({ ...prev, category: categories[0]._id }));
+    }
+  }, [categories, transaction.category]);
 
   const handleChange = (e) => {
     setTransaction({ ...transaction, [e.target.name]: e.target.value });
+  };
+
+  const handleTypeChange = (e) => {
+    const newType = e.target.value;
+    setTransaction(prevTransaction => ({
+      ...prevTransaction,
+      type: newType,
+      budget: newType === 'expense' ? prevTransaction.budget : '',
+      goal: newType === 'income' ? prevTransaction.goal : ''
+    }));
+  };
+
+  const handleBudgetChange = (e) => {
+    const selectedBudgetId = e.target.value;
+    const selectedBudget = budgets.find(budget => budget._id === selectedBudgetId);
+    
+    setTransaction(prevTransaction => ({
+      ...prevTransaction,
+      budget: selectedBudgetId,
+      category: selectedBudget ? selectedBudget.category : prevTransaction.category
+    }));
+  };
+
+  const handleGoalChange = (e) => {
+    const selectedGoalId = e.target.value;
+    const selectedGoal = goals.find(goal => goal._id === selectedGoalId);
+    
+    setTransaction(prevTransaction => ({
+      ...prevTransaction,
+      goal: selectedGoalId,
+      category: selectedGoal ? selectedGoal.category : prevTransaction.category
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      await addTransaction(transaction);
+      const transactionToSubmit = { ...transaction };
+
+      if (transactionToSubmit.budget === '') {
+        delete transactionToSubmit.budget;
+      }
+
+      if (transactionToSubmit.goal === '') {
+        delete transactionToSubmit.goal;
+      }
+
+      await addTransaction(transactionToSubmit);
       setTransaction({
         description: '',
         amount: '',
         type: 'expense',
         category: categories.length > 0 ? categories[0]._id : '',
-        date: new Date().toISOString().substr(0, 10)
+        date: new Date().toISOString().substr(0, 10),
+        budget: '',
+        goal: '',
       });
     } catch (err) {
-      setError('Failed to add transaction');
+      setError('Failed to add transaction: ' + (err.response?.data?.message || err.message));
       console.error('Error adding transaction:', err);
     }
   };
 
-  if (isLoading) {
-    return <div>Loading categories...</div>;
-  }
+  const memoizedBudgetOptions = useMemo(() => (
+    budgets.length > 0 ? (
+      budgets.map(budget => (
+        <option key={budget._id} value={budget._id}>{budget.name}</option>
+      ))
+    ) : (
+      <option value="">No budgets available</option>
+    )
+  ), [budgets]);
 
-  console.log('Rendering categories:', categories);
+  const memoizedGoalOptions = useMemo(() => (
+    goals.length > 0 ? (
+      goals.map(goal => (
+        <option key={goal._id} value={goal._id}>{goal.name}</option>
+      ))
+    ) : (
+      <option value="">No goals available</option>
+    )
+  ), [goals]);
+
+  const memoizedCategoryOptions = useMemo(() => (
+    categories.length > 0 ? (
+      categories.map(category => (
+        <option key={category._id} value={category._id}>{category.name}</option>
+      ))
+    ) : (
+      <option value="">No categories available</option>
+    )
+  ), [categories]);
 
   return (
     <div className="transaction-form-container">
@@ -101,21 +155,33 @@ const TransactionForm = () => {
         </div>
         <div className="form-group">
           <label htmlFor="type">Type</label>
-          <select id="type" name="type" value={transaction.type} onChange={handleChange}>
+          <select id="type" name="type" value={transaction.type} onChange={handleTypeChange}>
             <option value="expense">Expense</option>
             <option value="income">Income</option>
           </select>
         </div>
+        {transaction.type === 'expense' && (
+          <div className="form-group">
+            <label htmlFor="budget">Budget</label>
+            <select id="budget" name="budget" value={transaction.budget} onChange={handleBudgetChange}>
+              <option value="">No Budget</option>
+              {memoizedBudgetOptions}
+            </select>
+          </div>
+        )}
+        {transaction.type === 'income' && (
+          <div className="form-group">
+            <label htmlFor="goal">Goal</label>
+            <select id="goal" name="goal" value={transaction.goal} onChange={handleGoalChange}>
+              <option value="">No Goal</option>
+              {memoizedGoalOptions}
+            </select>
+          </div>
+        )}
         <div className="form-group">
           <label htmlFor="category">Category</label>
           <select id="category" name="category" value={transaction.category} onChange={handleChange}>
-            {categories.length > 0 ? (
-              categories.map(category => (
-                <option key={category._id} value={category._id}>{category.name}</option>
-              ))
-            ) : (
-              <option value="">No categories available</option>
-            )}
+            {memoizedCategoryOptions}
           </select>
         </div>
         <div className="form-group">

@@ -18,7 +18,7 @@ const Header = () => {
       items: [
         { to: '/dashboard', label: 'Dashboard' },
         { to: '/transactions', label: 'Transactions' },
-        { to: '/budget-setup', label: 'Budget Setup' },
+        { to: '/budget', label: 'Budget' },
         { to: '/financial-goals', label: 'Financial Goals' },
       ],
     },

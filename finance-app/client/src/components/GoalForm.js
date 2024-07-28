@@ -1,18 +1,18 @@
-// src/components/BudgetForm.js
+// src/components/GoalForm.js
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
-import './BudgetForm.css'; // Import the CSS file
+import './GoalForm.css';
 
-const BudgetForm = ({ budget, onClose }) => {
-  const { addBudget, updateBudget, categories, fetchCategories } = useContext(AppContext);
+const GoalForm = ({ goal, onClose }) => {
+  const { addGoal, updateGoal, categories, fetchCategories } = useContext(AppContext);
   const [formData, setFormData] = useState(
-    budget || {
+    goal || {
       name: '',
-      amount: '',
+      targetAmount: '',
+      currentAmount: 0,
       category: '',
       startDate: '',
-      endDate: '',
-      spent: 0
+      targetDate: '',
     }
   );
 
@@ -29,21 +29,21 @@ const BudgetForm = ({ budget, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (budget) {
-        await updateBudget(budget._id, formData);
+      if (goal) {
+        await updateGoal(goal._id, formData);
       } else {
-        await addBudget(formData);
+        await addGoal(formData);
       }
       onClose();
     } catch (error) {
-      console.error('Failed to save budget:', error);
+      console.error('Failed to save goal:', error);
       // You might want to set an error state here and display it to the user
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="budget-form-container">
-      <h2>{budget ? 'Edit Budget' : 'Create New Budget'}</h2>
+    <form onSubmit={handleSubmit} className="goal-form-container">
+      <h2>{goal ? 'Edit Goal' : 'Create New Goal'}</h2>
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input
@@ -56,12 +56,12 @@ const BudgetForm = ({ budget, onClose }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="amount">Amount</label>
+        <label htmlFor="targetAmount">Target Amount</label>
         <input
           type="number"
-          id="amount"
-          name="amount"
-          value={formData.amount}
+          id="targetAmount"
+          name="targetAmount"
+          value={formData.targetAmount}
           onChange={handleChange}
           required
         />
@@ -93,19 +93,19 @@ const BudgetForm = ({ budget, onClose }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="endDate">End Date</label>
+        <label htmlFor="targetDate">Target Date</label>
         <input
           type="date"
-          id="endDate"
-          name="endDate"
-          value={formData.endDate}
+          id="targetDate"
+          name="targetDate"
+          value={formData.targetDate}
           onChange={handleChange}
           required
         />
       </div>
-      <button type="submit">{budget ? 'Update' : 'Create'} Budget</button>
+      <button type="submit">{goal ? 'Update' : 'Create'} Goal</button>
     </form>
   );
 };
 
-export default BudgetForm;
+export default GoalForm;

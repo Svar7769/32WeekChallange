@@ -1,32 +1,45 @@
+// In your transaction model (models/Transaction.js)
+
 const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: true
   },
   description: {
     type: String,
-    required: true,
+    required: true
   },
   amount: {
     type: Number,
-    required: true,
+    required: true
   },
   type: {
     type: String,
     enum: ['income', 'expense'],
-    required: true,
+    required: true
   },
   category: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
   },
   date: {
     type: Date,
-    default: Date.now,
+    required: true
   },
-});
+  budget: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Budget',
+    required: function() { return this.type === 'expense'; }
+  },
+  goal: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Goal',
+    required: function() { return this.type === 'income'; }
+  }
+}, { timestamps: true });
 
 module.exports = mongoose.model('Transaction', TransactionSchema);

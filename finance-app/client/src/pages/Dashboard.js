@@ -1,5 +1,5 @@
 // src/pages/Dashboard.js
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
@@ -27,9 +27,21 @@ const Dashboard = () => {
       transaction.type === 'income' ? acc + transaction.amount : acc - transaction.amount, 0);
   };
 
+  const calculateMonthlySpending = () => {
+    return transactions
+      .filter(t => t.type === 'expense' && new Date(t.date).getMonth() === new Date().getMonth())
+      .reduce((acc, t) => acc + t.amount, 0);
+  };
+
+  const calculateMonthlyIncome = () => {
+    return transactions
+      .filter(t => t.type === 'income' && new Date(t.date).getMonth() === new Date().getMonth())
+      .reduce((acc, t) => acc + t.amount, 0);
+  };
+
   return (
     <div className="dashboard">
-      <h1>Welcome, {user.name}!</h1>
+      <h1>Welcome, {user ? user.name : 'User'}!</h1>
       
       <div className="dashboard-summary">
         <div className="summary-card">
@@ -38,11 +50,11 @@ const Dashboard = () => {
         </div>
         <div className="summary-card">
           <h3>This Month's Spending</h3>
-          <p>${transactions.filter(t => t.type === 'expense' && new Date(t.date).getMonth() === new Date().getMonth()).reduce((acc, t) => acc + t.amount, 0).toFixed(2)}</p>
+          <p>${calculateMonthlySpending().toFixed(2)}</p>
         </div>
         <div className="summary-card">
           <h3>This Month's Income</h3>
-          <p>${transactions.filter(t => t.type === 'income' && new Date(t.date).getMonth() === new Date().getMonth()).reduce((acc, t) => acc + t.amount, 0).toFixed(2)}</p>
+          <p>${calculateMonthlyIncome().toFixed(2)}</p>
         </div>
       </div>
 
@@ -96,20 +108,18 @@ const Dashboard = () => {
       <div className="financial-overview">
         <div className="overview-section">
           <h2>Budget Overview</h2>
-          {/* Display budget progress bars */}
           {budgets.slice(0, 3).map((budget, index) => (
             <div key={index} className="budget-item">
-              <p>{budget.category}</p>
+              <p>{budget.name}</p>
               <progress value={budget.spent} max={budget.amount}></progress>
               <p>${budget.spent} / ${budget.amount}</p>
             </div>
           ))}
-          <Link to="/budget-setup">Manage Budgets</Link>
+          <Link to="/budgets">Manage Budgets</Link>
         </div>
 
         <div className="overview-section">
           <h2>Financial Goals</h2>
-          {/* Display goal progress */}
           {goals.slice(0, 3).map((goal, index) => (
             <div key={index} className="goal-item">
               <p>{goal.name}</p>
@@ -117,7 +127,7 @@ const Dashboard = () => {
               <p>${goal.currentAmount} / ${goal.targetAmount}</p>
             </div>
           ))}
-          <Link to="/financial-goals">View All Goals</Link>
+          <Link to="/goals">View All Goals</Link>
         </div>
       </div>
 

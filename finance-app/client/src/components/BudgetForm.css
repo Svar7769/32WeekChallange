@@ -1,0 +1,46 @@
+/* src/components/BudgetForm.css */
+.budget-form-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.budget-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.budget-form-container .form-group {
+    margin-bottom: 15px;
+}
+
+.budget-form-container .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.budget-form-container .form-group input,
+.budget-form-container .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.budget-form-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.budget-form-container button:hover {
+    background-color: #0056b3;
+}
