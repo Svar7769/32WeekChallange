@@ -6,9 +6,17 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+// CORS configuration
+const corsOptions = {
+  origin: 'https://financial-app-front.vercel.app', // Replace with your frontend domain
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Preflight request handling
+
 app.use(express.json());
 
 // Connect to MongoDB
