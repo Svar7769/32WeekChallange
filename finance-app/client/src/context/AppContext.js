@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const AppContext = createContext();
 
-const API_BASE_URL = 'https://32-week-challange.vercel.app';
+const API_BASE_URL = 'https://32-week-challange.vercel.app/api';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
