@@ -7,8 +7,21 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 // CORS configuration
+
+const allowedOrigins = [
+  'https://financial-app-front-o6ec0ug4b-mrss-projects.vercel.app',
+  'https://financial-app-front.vercel.app',
+  'http://localhost:3000' // If you're also developing locally
+];
+
 const corsOptions = {
-  origin: 'financial-app-front-o6ec0ug4b-mrss-projects.vercel.app', // Replace with your frontend domain
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -45,6 +58,12 @@ app.use('/api/goals', require('./routes/goals'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/reminders', require('./routes/reminders'));
 app.use('/api/test', require('./routes/test'));
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
