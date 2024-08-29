@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   'https://financial-app-front-o6ec0ug4b-mrss-projects.vercel.app',
-  'https://financial-app-front.vercel.app',
+  'https://32-week-challange-front.vercel.app',
   'http://localhost:3000' // If you're also developing locally
 ];
 
