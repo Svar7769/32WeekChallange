@@ -44,6 +44,7 @@ app.use('/api/budgets', require('./routes/budgets'));
 app.use('/api/goals', require('./routes/goals'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/reminders', require('./routes/reminders'));
+app.use('/api/test', require('./routes/test'));
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
