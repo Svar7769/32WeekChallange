@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration
 
 const allowedOrigins = [
-  'https://32-week-challange-front-git-master-mrss-projects.vercel.app/',
-  'https://32-week-challange-front.vercel.app',
+  'https://finance-app-rho-rosy.vercel.app',
+  'https://finance-app-git-master-mrss-projects.vercel.app',
   'http://localhost:3000' // If you're also developing locally
 ];
 
