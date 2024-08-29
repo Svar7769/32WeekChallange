@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 // CORS configuration
 const corsOptions = {
-  origin: 'financial-app-front.vercel.app', // Replace with your frontend domain
+  origin: 'financial-app-front-o6ec0ug4b-mrss-projects.vercel.app', // Replace with your frontend domain
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization']
 };
